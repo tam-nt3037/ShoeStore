@@ -1,0 +1,50 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div id="content" class="float_r">
+    <div id="slider-wrapper">
+        <div id="slider" class="nivoSlider">
+            <img src="~/images/slider/18.jpg" alt="" />
+            <a href="#"><img src="~/images/slider/13.jpg" alt="" title="This is an example of a caption" /></a>
+            <img src="~/images/slider/21.jpg" alt="" />
+            <img src="~/images/slider/12.jpg" alt="" title="#htmlcaption" />
+        </div>
+        <div id="htmlcaption" class="nivo-html-caption">
+            <strong>This</strong> is an example of a <em>HTML</em> caption with <a href="#">a link</a>.
+        </div>
+    </div>
+    <script type="text/javascript" src="~/js/jquery-1.4.3.min.js"></script>
+    <script type="text/javascript" src="~/js/jquery.nivo.slider.pack.js"></script>
+    <script type="text/javascript">
+        $(window).load(function () {
+            $('#slider').nivoSlider();
+        });
+    </script>
+
+    <h1>New Products</h1>
+    
+    <hr noshade />
+
+    @{List<Week02.Models.San_pham> products_new = (List<Week02.Models.San_pham>)ViewData["products"];}
+    @foreach (var p in products_new)
+    {
+        <div class="product_box">
+            <h3>@p.Ten_sp</h3>
+            <a href='@Url.Action("ProductDetail/"+ p.ID_sp + "/" + p.Nsx_sp, "Home")'>
+                <img src='@Url.Content("~/images/product/"+p.Hinh_sp+"")' />
+            </a>
+            <p> @p.Mo_ta </p>
+            <p class="product_price">$ @p.Gia_sp</p>
+            <a href='@Url.Action("OrderNow", "ShoppingCart", new { id  = p.ID_sp})' class="addtocart"></a>
+            @*@Html.ActionLink("Order Now", "OrderNow", "ShoppingCart", new { id = p.ID_sp }, null)*@
+            @*<a href='@Url.Action("Order Now1","ShoppingCart","Home", new { id = p.ID_sp },null)' class="addtocart"></a>*@
+            <a href='@Url.Action("ProductDetail/"+ p.ID_sp + "/" + p.Nsx_sp,"Home")' class="detail"></a>
+            
+        </div>
+    }
+
+
+
+</div>
+<div class="cleaner"></div>

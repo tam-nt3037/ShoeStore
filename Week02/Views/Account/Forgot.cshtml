@@ -1,0 +1,43 @@
+﻿@model Week02.Models.ForgotAccountViewModel
+@{
+    ViewBag.Title = "Forgot";
+    Layout = "~/Views/Shared/_Layout_Login.cshtml";
+}
+
+@using (Html.BeginForm("Forgot", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "login100-form validate-form", role = "form" }))
+{
+    <span class="login100-form-title">
+        Reset Password
+    </span>
+    <label>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    </label>
+    <div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
+        @Html.TextBoxFor(m => m.Email, new { @class = "input100", placeholder = "Email" })
+        <span class="focus-input100"></span>
+        <span class="symbol-input100">
+            <i class="fa fa-envelope" aria-hidden="true"></i>
+        </span>
+    </div>
+
+    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+
+    <div class="container-login100-form-btn">
+        <button class="login100-form-btn" type="submit">
+            Submit
+        </button>
+    </div>
+
+    <div class="text-center p-t-136">
+        <a class="txt2" href="#">
+            @Html.ActionLink("Register your Account", "Register", "Account")
+            <i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i><br/>
+            @Html.ActionLink("Login", "Login", "Account")
+            <i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
+        </a>
+
+    </div>
+        }
+
+
+

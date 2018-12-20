@@ -1,0 +1,126 @@
+﻿
+@{
+    ViewBag.Title = "EditProducts";
+    Layout = "~/Views/Shared/_Layout_Admin.cshtml";
+}
+
+@model Week02.Models.SaveEditModel
+
+@{List<Week02.Models.San_pham> getProducts = (List<Week02.Models.San_pham>)ViewData["products"];}
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-icon" data-background-color="purple">
+                        <i class="material-icons">assignment</i>
+                    </div>
+                    @using (Html.BeginForm("EditProducts", "Admin", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="card-content">
+                            <h4 class="card-title">Products</h4>
+                            <div class="toolbar">
+                                <!--        Here you can write extra buttons/actions for the toolbar              -->
+                            </div>
+
+                            <div class="form-horizontal">
+                                <hr />
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                
+
+                                @if (getProducts == null)
+                                {
+                                    <h2>Load this page again</h2>
+                                }
+                                else
+                                {
+                                    foreach (var p in getProducts)
+                                    {
+                                    <div class="form-group">
+                                        @Html.HiddenFor(model => model.ID_sp, new { @Value = p.ID_sp})
+                                        @Html.LabelFor(m => m.Ten_sp, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(m => m.Ten_sp, new { htmlAttributes = new { @class = "form-control", @Value = p.Ten_sp } })
+                                            @Html.ValidationMessageFor(m => m.Ten_sp, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(m => m.Gia_sp, htmlAttributes: new { @class = "control-label col-md-2" })
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(m => m.Gia_sp, new { htmlAttributes = new { @class = "form-control", @Value = p.Gia_sp } })
+                                                @Html.ValidationMessageFor(m => m.Gia_sp, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Hinh_sp, htmlAttributes: new { @class = "control-label col-md-2" })
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(m => m.Hinh_sp, new { htmlAttributes = new { @class = "form-control", @Value = p.Hinh_sp } })
+                                                @Html.ValidationMessageFor(m => m.Hinh_sp, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(m => m.Mo_ta, htmlAttributes: new { @class = "control-label col-md-2" })
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(m => m.Mo_ta, new { htmlAttributes = new { @class = "form-control", @Value = p.Mo_ta } })
+                                                @Html.ValidationMessageFor(m => m.Mo_ta, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(m => m.ID_nhom, "ID_nhom", htmlAttributes: new { @class = "control-label col-md-2" })
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(m => m.ID_nhom, new { htmlAttributes = new { @class = "form-control", @Value = p.ID_nhom } })
+                                                @*@Html.DropDownList("ID_nhom", ViewBag.listGroupProducts as SelectList, "all", htmlAttributes: new { @class = "form-control" })*@
+                                                @Html.ValidationMessageFor(m => m.ID_nhom, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(m => m.So_luong, htmlAttributes: new { @class = "control-label col-md-2" })
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(m => m.So_luong, new { htmlAttributes = new { @class = "form-control", @Value = p.So_luong } })
+                                                @Html.ValidationMessageFor(m => m.So_luong, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(m => m.Nsx_sp, htmlAttributes: new { @class = "control-label col-md-2" })
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(m => m.Nsx_sp, new { htmlAttributes = new { @class = "form-control", @Value = p.Nsx_sp } })
+                                                @Html.ValidationMessageFor(m => m.Nsx_sp, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    }
+                                }
+
+
+
+                                <div class="form-group">
+                                    <div class="col-md-offset-2 col-md-10">
+                                        <input type="submit" value="Save" class="btn btn-default" runnat="server" />
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div>
+                                @Html.ActionLink("Back to List", "Index")
+                            </div>
+                        </div>
+                    }
+                    <!-- end content-->
+                </div>
+                <!--  end card  -->
+            </div>
+            <!-- end col-md-12 -->
+        </div>
+        <!-- end row -->
+    </div>
+</div>
+
+

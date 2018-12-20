@@ -1,0 +1,9 @@
+﻿@model List<Week02.Models.San_pham>
+@{
+
+}
+
+@foreach (var item in Model)
+{
+    <li>@Html.ActionLink(item.Nsx_sp, "findByCategory", "Home", new { Nsx_sp = item.Nsx_sp}, null)</li>
+}

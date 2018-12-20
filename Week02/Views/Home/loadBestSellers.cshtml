@@ -1,0 +1,30 @@
+﻿@{List<Week02.Models.San_pham> getAllProducts = (List<Week02.Models.San_pham>)ViewData["getAllProducts"];}
+    @{ List<Week02.Models.BestSellersModel> getBestSellers = (List < Week02.Models.BestSellersModel > )ViewData["bestsellers"];}
+
+     <div class="sidebar_box">
+         <span class="bottom"></span>
+         <h3>Bestsellers </h3>
+         <div class="content">
+             @if (getAllProducts != null)
+             {
+                 foreach (var p in getBestSellers)
+                 {
+                     foreach (var item in getAllProducts)
+                     {
+                         if (p.ID_sp == item.ID_sp)
+                         {
+                                 <div class="bs_box">
+                                         <a href='@Url.Action("ProductDetail/"+ p.ID_sp + "/" + item.Nsx_sp, "Home")'><img src="~/images/product/@item.Hinh_sp" alt="image @item.Hinh_sp" width="80px" height="80px"/></a>
+                                         <h4><a href='@Url.Action("ProductDetail/"+ p.ID_sp + "/" + item.Nsx_sp, "Home")'>@item.Ten_sp</a></h4>
+                                         <p class="price">$@item.Gia_sp</p>
+                                         <div class="cleaner"></div>
+                                 </div>
+                         }
+                     }
+                 }
+             }
+
+         </div>
+     </div>
+
+

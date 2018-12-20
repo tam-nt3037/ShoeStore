@@ -1,0 +1,55 @@
+﻿@using Week02.Controllers
+<div id="templatemo_header">
+    <div id="site_title"><h1><a href="#">Online Shoes Store</a></h1></div>
+    <div id="header_right" style="float: none;">
+        @{
+            if (Session["email"] == null)
+            {
+                <p>
+                    @Html.ActionLink("My Account", "AccountDetail", "Account") | <a href="#">My Wishlist</a> | @Html.ActionLink("My Cart", "OrderNow", "ShoppingCart", new { id = -2 }, null) | @Html.ActionLink("Checkout", "Checkout", "Home") | @Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })
+                </p>
+            }
+            else
+            {
+                <p>
+                    @Html.ActionLink("My Account", "AccountDetail", "Account") | <a href="#">My Wishlist</a> | @Html.ActionLink("My Cart", "OrderNow", "ShoppingCart", new { id = -2 }, null) | @Html.ActionLink("Checkout", "Checkout", "Home") | Hello @Session["email"] | @Html.ActionLink("Log out", "Logout", "Account")
+                </p>
+            }
+        }
+
+        <p>
+
+            @{ 
+                int countItems;
+                if (Session["email"] == null && Session["cart"] == null )
+                {
+                    countItems = 0;
+                    @Html.Raw("Shopping Cart: ");<strong>@{@countItems} items</strong>
+                    @Html.Raw(" ( ");
+                    @Html.ActionLink("Show your cart", "Login", "Account");
+                    @Html.Raw(" )");
+                }
+                else if (Session["email"] != null && Session["cart"] == null)
+                {
+                    countItems = 0;
+                    @Html.Raw("Shopping Cart: ");<strong>@{@countItems} items</strong>
+                    @Html.Raw(" ( ");
+                    @Html.ActionLink("Show your cart", "OrderNow", "ShoppingCart", new { id = -2 }, null);
+                    @Html.Raw(" )");
+                }
+                else
+                {
+                    //List<Item> cart = (List<Item>)(Session["cart"]);
+                    //countItems = cart.Count();
+
+                    Html.RenderAction("CartSummary","ShoppingCart");
+                }
+
+            }
+
+            
+            
+        </p>
+    </div>
+    <div class="cleaner"></div>
+</div>

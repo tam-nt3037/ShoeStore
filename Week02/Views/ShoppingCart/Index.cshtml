@@ -1,0 +1,15 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+
+    Layout = "~/Views/Shared/Error.cshtml";
+}
+
+        <div class="alert info">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            <h4 style="text-align: center; font-size: 18px; color: white">@ViewBag.Error</h4>
+        </div>
+<br/>
+<p style="text-align: center">
+    <button class="mbutton mbutton2" onclick="window.location.href='../Account/Login'">Login Now</button>
+</p>

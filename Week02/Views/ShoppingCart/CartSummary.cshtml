@@ -1,0 +1,4 @@
+﻿@Html.Raw("Shopping Cart: ")<strong>@ViewData["CartCount"] items</strong>
+@Html.Raw(" ( ")
+@Html.ActionLink("Show your cart", "OrderNow", "ShoppingCart", new { id = -2 }, null)
+@Html.Raw(" )")

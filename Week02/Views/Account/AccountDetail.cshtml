@@ -1,0 +1,134 @@
+﻿@model Week02.Models.DetailAccountViewModel
+
+@{
+    ViewBag.Title = "AccountDetail";
+    Layout = "~/Views/Shared/_Layout_Account.cshtml";
+
+    Week02.Models.User user = (Week02.Models.User)ViewData["detail_customer"];
+}
+<asp:Content ID="Content1" ContentPlaceHolderID="Stylesheets" runat="server">
+    <link href="~/css/details_information.css" rel="stylesheet" />
+</asp:Content>
+
+<style>
+    /* Full-width input fields */
+    input[type=text], input[type=password], input[type=number] {
+        width: 95%;
+        padding: 15px;
+        margin: 5px 0 22px 0;
+        display: inline-block;
+        border: none;
+        background: #f1f1f1;
+    }
+
+        input[type=text]:focus, input[type=password], input[type=number]:focus {
+            background-color: #ddd;
+            outline: none;
+        }
+
+    .myform {
+        padding-top: 10px;
+        padding-left: 200px;
+        padding-right: 200px;
+    }
+
+    .text-danger {
+        color: red;
+    }
+
+    .mypadding {
+        padding-left: 20px;
+    }
+</style>
+
+@using (Html.BeginForm("AccountDetail", "Account", FormMethod.Post, new { @class = "form-horizontal myform", role = "form" }))
+{
+    <div class="container">
+        <fieldset>
+            <legend>Account Details</legend>
+            <h3>@Html.ValidationSummary(true, "", new { @style = "color: red;" })</h3>
+            <br />
+            @if (user != null)
+            {
+                <label for="id"><b hidden>ID</b></label>
+                <input type="hidden" name="id" value="@user.ID_kh" readonly>
+
+                @*<label for="email"><b>Email</b></label>
+                    <input type="text" placeholder="Enter Email" name="email" value="@p.Email_kh" onclick="alert('Can not change email')" readonly>
+
+                    <label for="phone"><b>Phone number</b></label>
+                    <input type="number" placeholder="Enter your phone number" name="phone" value="@p.Sdt_kh" required>
+
+                    <label for="address"><b>Address</b></label>
+                    <input type="text" placeholder="Enter your address" name="address" value="@p.Diachi_kh" required min="4">
+
+                    <label for="doB"><b>Date of birth</b></label>
+                    <input type="text" name="doB" value="@p.Ngaysinh_kh" required>*@
+
+                @Html.LabelFor(m => m.NameCus, new { @class = "labelText" })
+                @Html.TextBoxFor(m => m.NameCus, new { placeholder = "Input your full name",
+                                                       @Value =user.Ten_kh})
+                <p><h4 class="mypadding">@Html.ValidationMessageFor(m => m.NameCus, "", new { @class = "text-danger" })</h4></p>
+
+                @Html.LabelFor(m => m.Email, new { @class = "labelText" })
+                @Html.TextBoxFor(m => m.Email, new { onclick="alert('Can not change email')",
+                                                     @Value = user.Email_kh,
+                                                     @readonly = "readonly" })
+                <p><h4 class="mypadding">@Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })</h4></p>
+                @Html.LabelFor(m => m.PhoneNumberCus, new { @class = "labelText" })
+                @Html.TextBoxFor(m => m.PhoneNumberCus, new { placeholder = "Input your number phone",
+                                                              @Value =user.Sdt_kh})
+                <p><h4 class="mypadding">@Html.ValidationMessageFor(m => m.PhoneNumberCus, "", new { @class = "text-danger" })</h4></p>
+
+                @Html.LabelFor(m => m.AddressCus, new { @class = "labelText" })
+                @Html.TextBoxFor(m => m.AddressCus, new { placeholder = "Input your address",
+                                                              @Value =user.Diachi_kh})
+                <p><h4 class="mypadding">@Html.ValidationMessageFor(m => m.AddressCus, "", new { @class = "text-danger" })</h4></p>
+
+                @Html.LabelFor(m => m.DateCus, new { @class = "labelText" })
+                @Html.TextBoxFor(m => m.DateCus, new { placeholder = "Input your birthday",
+                                                              @Value =user.Ngaysinh_kh})
+                <p><h4 class="mypadding">@Html.ValidationMessageFor(m => m.DateCus, "", new { @class = "text-danger" })</h4></p>
+            }
+            else
+            {
+                <label for="id"><b hidden>ID</b></label>
+                <input type="hidden" name="id" readonly>
+
+                @Html.LabelFor(m => m.NameCus, new { @class = "labelText" })
+                @Html.TextBoxFor(m => m.NameCus, new { placeholder = "Input your full name" })
+                <p><h4 class="mypadding">@Html.ValidationMessageFor(m => m.NameCus, "", new { @class = "text-danger" })</h4></p>
+
+                @Html.LabelFor(m => m.Email, new { @class = "labelText" })
+                @Html.TextBoxFor(m => m.Email, new { onclick="alert('Can not change email')",
+                                                        @readonly = "readonly" })
+                <p><h4 class="mypadding">@Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })</h4></p>
+                @Html.LabelFor(m => m.PhoneNumberCus, new { @class = "labelText" })
+                @Html.TextBoxFor(m => m.PhoneNumberCus, new { placeholder = "Input your number phone" })
+                <p><h4 class="mypadding">@Html.ValidationMessageFor(m => m.PhoneNumberCus, "", new { @class = "text-danger" })</h4></p>
+
+                @Html.LabelFor(m => m.AddressCus, new { @class = "labelText" })
+                @Html.TextBoxFor(m => m.AddressCus, new { placeholder = "Input your address" })
+                <p><h4 class="mypadding">@Html.ValidationMessageFor(m => m.AddressCus, "", new { @class = "text-danger" })</h4></p>
+
+                @Html.LabelFor(m => m.DateCus, new { @class = "labelText" })
+                @Html.TextBoxFor(m => m.DateCus, new { placeholder = "Input your birthday" })
+                <p><h4 class="mypadding">@Html.ValidationMessageFor(m => m.DateCus, "", new { @class = "text-danger" })</h4></p>
+            }
+            <div class="clearfix">
+                <button type="button" name="btnCancel" class="cancelbtn" onclick="javascript:history.back()">Cancel</button>
+                <button type="submit" name="btnUpdate" class="updatebtn" runnat="server">Update</button>
+            </div>
+        </fieldset>
+    </div>
+}
+<div class="myform">
+    <fieldset>
+        <legend>Change password</legend>
+        <br /><br />
+        <div style="text-align: center">
+            @Html.ActionLink("Change Password", "ChangePassword", null, new { @class = "changepasswordbtn", style = "color: white; text-decoration: none" })
+        </div>
+        <br />
+    </fieldset>
+</div>

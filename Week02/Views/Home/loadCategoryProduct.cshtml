@@ -1,0 +1,10 @@
+﻿@{List<Week02.Models.Nhom_sp> categoryProduct = (List<Week02.Models.Nhom_sp>)ViewData["getCategoryProduct"];}
+
+@if (categoryProduct != null)
+{
+    foreach (var item in categoryProduct)
+    {
+        <li>@Html.ActionLink(item.Ten_nhom, "Products", "Home", new { id = item.ID_nhom }, null)</li>
+    }
+}
+

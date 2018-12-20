@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="aa2a2d3c5aeb4af7be71a55106394056" Name="Diagram1">
+        <EntityTypeShape EntityType="ShoeStoreModel.CT_HoaDon" Width="1.5" PointX="5.25" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShoeStoreModel.Hoa_don" Width="1.5" PointX="3" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShoeStoreModel.Khach_hang" Width="1.5" PointX="0.75" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShoeStoreModel.Nhom_sp" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShoeStoreModel.San_pham" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShoeStoreModel.sysdiagram" Width="1.5" PointX="6.875" PointY="4.75" IsExpanded="true" />
+        <AssociationConnector Association="ShoeStoreModel.FK_CT_HoaDon_Hoa_don" ManuallyRouted="false" />
+        <AssociationConnector Association="ShoeStoreModel.FK_CT_HoaDon_San_pham" ManuallyRouted="false" />
+        <AssociationConnector Association="ShoeStoreModel.FK_Hoa_don_Khach_hang" ManuallyRouted="false" />
+        <AssociationConnector Association="ShoeStoreModel.FK_San_pham_Nhom_SP" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

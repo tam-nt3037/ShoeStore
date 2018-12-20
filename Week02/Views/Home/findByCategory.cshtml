@@ -1,0 +1,26 @@
+﻿@{
+    ViewBag.Title = "Category";
+}
+@using Week02.Controllers
+<div id="content" class="float_r">
+    <h1>@ViewBag.Nsx_sp</h1>
+
+    @model List<Week02.Models.San_pham>
+    @foreach (var p in Model)
+    {
+        <div class="product_box">
+            <h3>@p.Ten_sp</h3>
+            <a href='@Url.Action("ProductDetail/"+ p.ID_sp + "/" + p.Nsx_sp, "Home")'>
+                <img src='@Url.Content("~/images/product/"+p.Hinh_sp+"")' />
+            </a>
+            <p> @p.Mo_ta </p>
+            <p class="product_price">$ @p.Gia_sp</p>
+            <a href='@Url.Action("OrderNow", "ShoppingCart", new { id  = p.ID_sp})' class="addtocart"></a>
+            @*@Html.ActionLink("Order Now", "OrderNow", "ShoppingCart", new { id = p.ID_sp }, null)*@
+            @*<a href='@Url.Action("Order Now1","ShoppingCart","Home", new { id = p.ID_sp },null)' class="addtocart"></a>*@
+            <a href='@Url.Action("ProductDetail/"+ p.ID_sp + "/" + p.Nsx_sp, "Home")' class="detail"></a>
+        </div>
+    }
+</div>
+<div class="cleaner"></div>
+

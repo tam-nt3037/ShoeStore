@@ -1,0 +1,18 @@
+﻿@{List<Week02.Models.San_pham> relatedProducts = (List<Week02.Models.San_pham>)ViewData["getRelatedProducts"];}
+<h3>Related Products</h3>
+@if (relatedProducts != null)
+{
+    foreach (var item in relatedProducts)
+    {
+        <div class="product_box">
+            <a href='@Url.Action("ProductDetail/"+ item.ID_sp + "/" + item.Nsx_sp, "Home")'>
+                <img src='@Url.Content("~/images/product/"+item.Hinh_sp+"")' />
+            </a>
+            <h3>@item.Ten_sp</h3>
+            <p> @item.Mo_ta </p>
+            <p class="product_price">$ @item.Gia_sp</p>
+            <a href='@Url.Action("OrderNow", "ShoppingCart", new { id  = item.ID_sp})' class="addtocart"></a>
+            <a href='@Url.Action("ProductDetail/"+ item.ID_sp + "/" + item.Nsx_sp,"Home")' class="detail"></a>
+        </div>
+    }
+}

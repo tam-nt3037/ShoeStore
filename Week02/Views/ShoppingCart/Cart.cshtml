@@ -1,0 +1,104 @@
+﻿@{
+    ViewBag.Title = "Shopping Cart";
+}
+@using Week02.Controllers
+<script>
+
+    //$(document).ready(function () {
+    //    $("#quantityP").change(function () {
+    //        alert($(this).val());
+    //    });
+    //})
+
+    @*function myConfirm() {
+        var cf = confirm("Press a button!");
+        if (cf == true) {
+
+        } else {
+            @Html.ActionLink("Show your cart", "OrderNow", "ShoppingCart", new { id = -2 }, null)
+        }
+    }*@
+
+    //function checkQuantity() {
+    //    var x = document.forms["myForm"]["quantityProducts"].value;
+    //    if (x > 1) {
+    //        alert("Product limit in a single purchase !!!");
+    //        //document.getElementById("quantityProducts").value = 1;
+    //        return false;
+    //    }
+    //}    //function checkQuantity() {
+    //    var x = document.forms["myForm"]["quantityProducts"].value;
+    //    if (x > 1) {
+    //        alert("Product limit in a single purchase !!!");
+    //        //document.getElementById("quantityProducts").value = 1;
+    //        return false;
+    //    }
+    //}
+    function load_QuantityProduct() {
+
+        //var quantity = document.forms["myForm"]["quantityProducts"].value;
+        //var giaSp = document.getElementById("giaSp").textContent;
+        //var totalEachProduct = quantity * giaSp;
+        //console.log(quantity)
+        //console.log(giaSp)
+        //console.log(totalEachProduct)
+        //document.getElementById("totalEachProduct").textContent = totalEachProduct;
+    }
+    
+
+</script>
+<form name="myForm" method="post" action="@Url.Action("Update", "ShoppingCart", new { id  = -2})" onchange="load_QuantityProduct()">
+    <div id="content" class="float_r">
+        <h1>Shopping Cart</h1>
+        <table width="680" cellspacing="0" cellpadding="5">
+            <tr bgcolor="#ddd">
+                <th width="220" align="left">Image </th>
+                <th width="180" align="left">Description </th>
+                <th width="100" align="center">Quantity </th>
+                <th width="60" align="right">Price </th>
+                <th width="60" align="right">Total </th>
+                <th width="90"> </th>
+            </tr>
+            @{decimal totalCart = 0;}
+            @{ if (Session["Cart"] != null)
+                {
+                    foreach (Item item in (List<Item>)Session["Cart"])
+                    {
+                        if (item != null)
+                        {
+                            decimal totalEachProduct = 0;
+
+                            <tr>
+                                <td><img src="~/images/product/@item.San_pham.Hinh_sp" alt="image @item.San_pham.Hinh_sp" /></td>
+                                <td id="mota">@item.San_pham.Mo_ta</td>
+                                <td align="center"><input id="quantityProducts" name="quantityProducts" type="number" value="@item.So_luong"  min="1" max="5" style="width: 40px; text-align: left;" runnat="server" /></td>
+                                <td align="right">$<span id="giaSp">@item.San_pham.Gia_sp</span></td>
+                                <td align="right">$<span id="totalEachProduct">@(totalEachProduct = totalEachProduct + item.San_pham.Gia_sp.Value * @item.So_luong)</span></td>
+                                <td align="center" onclick="myConfirm()">@Html.ActionLink("Remove", "Delete", "ShoppingCart", new { id = item.San_pham.ID_sp }, null) </td>
+
+                            </tr>
+                            totalCart += totalEachProduct;
+                        }
+                        else
+                        {
+                            <tr>Nothing</tr>
+                        }
+                    }
+                }
+            }
+            <tr>
+                <td colspan="3" align="right" height="30px">Have you modified your basket? Please click here to <bold><button type="submit" class="buttonTransparent" onclick="href='@Url.Action("Update", "ShoppingCart", null)'">Update</button></bold>&nbsp;&nbsp;</td>
+                <td align="right" style="background:#ddd; font-weight:bold"> Total </td>
+                <td align="right" style="background:#ddd; font-weight:bold">$@{@totalCart} </td>
+                <td style="background:#ddd; font-weight:bold"> </td>
+            </tr>
+        </table>
+
+        <div style="float:right; width: 215px; margin-top: 20px;">
+
+            <p>@Html.ActionLink("Proceed to checkout", "Checkout", "Home")</p>
+            <p><a href="javascript:history.back()">Continue shopping</a></p>
+        </div>
+    </div>
+</form>
+<div class="cleaner"></div>

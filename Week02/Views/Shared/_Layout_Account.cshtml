@@ -1,0 +1,118 @@
+﻿<!-- templatemo 367 shoes -->
+<!--
+Shoes Template
+http://www.templatemo.com/preview/templatemo_367_shoes
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Shoes Store from templatemo</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+
+    <asp:ContentPlaceHolder ID="Stylesheets" runat="server">
+        <link href="~/css/myCustom.css" rel="stylesheet" />
+
+        <link href="~/css/templatemo_style.css" rel="stylesheet" type="text/css" />
+
+        <link rel="stylesheet" href="~/css/nivo-slider.css" type="text/css" media="screen" />
+
+        <link rel="stylesheet" type="text/css" href="~/css/ddsmoothmenu.css" />
+        <link rel="stylesheet" type="text/css" href="~/css/details_information.css" />
+        <script type="text/javascript" src="~/js/jquery.min.js"></script>
+        <script type="text/javascript" src="~/js/ddsmoothmenu.js">
+
+            /***********************************************
+            * Smooth Navigational Menu- (c) Dynamic Drive DHTML code library (www.dynamicdrive.com)
+            * This notice MUST stay intact for legal use
+            * Visit Dynamic Drive at http://www.dynamicdrive.com/ for full source code
+            ***********************************************/
+
+        </script>
+
+        <script type="text/javascript">
+
+            ddsmoothmenu.init({
+                mainmenuid: "top_nav", //menu DIV id
+                orientation: 'h', //Horizontal or vertical menu: Set to "h" or "v"
+                classname: 'ddsmoothmenu', //class added to menu's outer DIV
+                //customtheme: ["#1c5a80", "#18374a"],
+                contentsource: "markup" //"markup" or ["container_id", "path_to_menu_file"]
+            })
+
+        </script>
+
+    </asp:ContentPlaceHolder>
+
+</head>
+@using Week02.Controllers
+<body>
+
+    <div id="templatemo_body_wrapper">
+        <div id="templatemo_wrapper">
+
+            <!-- BEGIN of templatemo_header -->
+            @Html.Partial("~/Views/Shared/TopHeader.cshtml")
+            <!-- END of templatemo_header -->
+
+            <div id="templatemo_menubar">
+                <div id="top_nav" class="ddsmoothmenu">
+                    <ul>
+                        @*<li><a href="index.html" class="selected">Home</a></li>*@
+                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                        <li>
+                            @Html.ActionLink("Products", "Products", "Home", new { id = 0 }, null)
+                            <ul>
+                                <li>@Html.ActionLink("Originals", "Products", "Home", new { id = 1 }, null)</li>
+                                <li>@Html.ActionLink("Running", "Products", "Home", new { id = 2 }, null)</li>
+                                <li>@Html.ActionLink("Basketball", "Products", "Home", new { id = 3 }, null)</li>
+                                <li>@Html.ActionLink("Explore more", "Products", "Home", new { id = 4 }, null)</li>
+                            </ul>
+                        </li>
+                        <li>
+                            @Html.ActionLink("About", "About", "Home")
+                            <ul>
+                                <li><a href="#submenu1">Sub menu 1</a></li>
+                                <li><a href="#submenu2">Sub menu 2</a></li>
+                                <li><a href="#submenu3">Sub menu 3</a></li>
+                            </ul>
+                        </li>
+                        <li>@Html.ActionLink("FAQs", "Faqs", "Home")</li>
+                        <li>@Html.ActionLink("Checkout", "Checkout", "Home")</li>
+                        <li>@Html.ActionLink("Contact Us", "Contact", "Home")</li>
+                    </ul>
+                    <br style="clear: left" />
+                </div> <!-- end of ddsmoothmenu -->
+                <div id="templatemo_search">
+                    <form action="#" method="get">
+                        <input type="text" value=" " name="keyword" id="keyword" title="keyword" onfocus="clearText(this)" onblur="clearText(this)" class="txt_field" />
+                        <input type="submit" name="Search" value=" " alt="Search" id="searchbutton" title="Search" class="sub_btn" />
+                    </form>
+                </div>
+            </div> <!-- END of templatemo_menubar -->
+
+            <div id="templatemo_main">
+                <div id="sidebar" class="float_l">
+                   
+                    @*/// Best Sellers*@
+
+                    @*@Html.Partial("~/Views/Home/BestSellers.cshtml")*@
+
+                </div>
+                @RenderBody()
+            </div> <!-- END of templatemo_main -->
+
+            <div id="templatemo_footer">
+                <p>
+                    @Html.ActionLink("Home", "Index", "Home") |  @Html.ActionLink("Products", "Products", "Home", new { id = 0 }, null) | @Html.ActionLink("About", "About", "Home") | @Html.ActionLink("FAQs", "Faqs", "Home") | @Html.ActionLink("Checkout", "Checkout", "Home") | @Html.ActionLink("Contact Us", "Contact", "Home")
+                </p>
+
+                Copyright © 2018 <a href="#">Thanh Tâm Nguyễn</a> <!-- Credit: www.templatemo.com -->
+            </div> <!-- END of templatemo_footer -->
+
+        </div> <!-- END of templatemo_wrapper -->
+    </div> <!-- END of templatemo_body_wrapper -->
+
+</body>
+</html>
