@@ -244,6 +244,14 @@ namespace Week02.Controllers
             }
         }
 
+        private async Task<bool> CheckExistsPassword(string email, string password)
+        {
+            var fbUsers = await firebase.Child("User_WebShoes").OnceAsync<User>();
+            foreach (var item in fbUsers)
+                if (item.Object.Email_kh == email && item.Object.Mk_kh == password)
+                    return true;
+            return false;
+        }
 
         public ActionResult ChangePassword()
         {
@@ -266,25 +274,25 @@ namespace Week02.Controllers
             if (ModelState.IsValid)
             {
                 // CHECK OLD PASSWORD
-                if (checkExistsPassword(email, opassword) == false)
+                if (await CheckExistsPassword(email, opassword) == false)
                 {
                     ModelState.AddModelError("", "Old password is wrong, please enter your old password !!!");
                 }
                 // CHECK NEW PASSWORD HAS A SAME WITH OLD PASSWORD
-                else if (checkExistsPassword(email, npassword))
+                else if (await CheckExistsPassword(email, npassword))
                 {
                     ModelState.AddModelError("", "A new password is the same old password, please enter different password !!!");
                 }
                 // SAVE NEW PASSWORD
-                else if (checkExistsPassword(email, opassword) == true && checkExistsPassword(email, npassword) == false)
+                else if (await CheckExistsPassword(email, opassword) == true && await CheckExistsPassword(email, npassword) == false)
                 {
                     UserNode nuser = await GetUserByEmail(email);
                     if(nuser != null)
                     {
                         nuser.User.Mk_kh = npassword;
                     }
-                    
 
+                    await firebase.Child("User_WebShoes").Child(nuser.Key).PutAsync(nuser.User);
 
                     ModelState.AddModelError("", "Update your password successfull !!!");
                 }
@@ -293,12 +301,12 @@ namespace Week02.Controllers
             return View(model);
         }
 
-        public bool checkExistsPassword(string email, string pass)
-        {
-            if (db.Khach_hang.Any(n => n.Email_kh.Equals(email) && n.Mk_kh.Equals(pass)))
-                return true;
-            return false;
-        }
+        //public bool checkExistsPassword(string email, string pass)
+        //{
+        //    if (db.Khach_hang.Any(n => n.Email_kh.Equals(email) && n.Mk_kh.Equals(pass)))
+        //        return true;
+        //    return false;
+        //}
         public ActionResult Forgot()
         {
 
