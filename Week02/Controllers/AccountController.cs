@@ -142,12 +142,20 @@ namespace Week02.Controllers
             return View();
         }
 
-        public bool CheckEmail(String email)
+        //public bool CheckEmail(String email)
+        //{
+        //    return db.Khach_hang.Any(n => n.Email_kh == email);
+        //}
+        private async Task<bool> CheckEmail(string email)
         {
-            return db.Khach_hang.Any(n => n.Email_kh == email);
+            var fbUsers = await firebase.Child("User_WebShoes").OnceAsync<User>();
+            foreach (var item in fbUsers)
+                if (item.Object.Email_kh == email)
+                    return true;
+            return false;
         }
         [HttpPost]
-        public ActionResult Register(Khach_hang kh, RegisterViewModel model)
+        public async Task<ActionResult> Register(Khach_hang kh, RegisterViewModel model)
         {
             string email = Request["Email"];
             string password = Encrypt.getHashSha256(Request["Password"]);
@@ -157,7 +165,7 @@ namespace Week02.Controllers
             //DateTime doB = DateTime.Parse(Request["doB"]);
             if (ModelState.IsValid)
             {
-                if (CheckEmail(email) == true)
+                if (await CheckEmail(email) == true)
                 {
                     ModelState.AddModelError("", "Account already exists !!!");
                 }
@@ -287,7 +295,7 @@ namespace Week02.Controllers
                 else if (await CheckExistsPassword(email, opassword) == true && await CheckExistsPassword(email, npassword) == false)
                 {
                     UserNode nuser = await GetUserByEmail(email);
-                    if(nuser != null)
+                    if (nuser != null)
                     {
                         nuser.User.Mk_kh = npassword;
                     }
@@ -313,47 +321,57 @@ namespace Week02.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Forgot(ForgotAccountViewModel model)
+        public async Task<ActionResult> Forgot(ForgotAccountViewModel model)
         {
-            String senderEmail = model.Email;
+            string senderEmail = model.Email;
+            string senderPassword, hashPassword;
             if (ModelState.IsValid)
             {
-                if (CheckEmail(senderEmail) == false)
+                if (await CheckEmail(senderEmail) == false)
                 {
                     ModelState.AddModelError("", "Email not exists !!!");
                 }
                 else
                 {
                     // Get Password for email
-                    List<Khach_hang> kh = db.Khach_hang.Where(n => n.Email_kh.Equals(senderEmail)).ToList();
-                    String senderPassword = kh[0].Mk_kh;
-
-                    try
+                    UserNode nuser = await GetUserByEmail(senderEmail);
+                    
+                    if(nuser != null)
                     {
-                        MailMessage msg = new MailMessage();
-                        msg.From = new MailAddress(senderEmail);
-                        msg.To.Add(senderEmail);
-                        msg.Subject = "Recover your password";
-                        msg.Body = ("Your email is: " + senderEmail + "<br/><br/>"
-                            + "Your password is: " + senderPassword);
-                        msg.IsBodyHtml = true;
+                        //RESET PASSWORD
+                        senderPassword = GenerateString.GetRandomString(6);
+                        hashPassword = Encrypt.getHashSha256(senderPassword);
 
-                        SmtpClient smt = new SmtpClient();
-                        smt.Host = "smtp.gmail.com";
-                        System.Net.NetworkCredential ntwd = new System.Net.NetworkCredential("contact.shoestore@gmail.com", "shoestoremyadmin");
-                        smt.UseDefaultCredentials = false;
-                        smt.Credentials = ntwd;
-                        smt.Port = 587;
-                        smt.EnableSsl = true;
-                        smt.Send(msg);
+                        //UPDATE PASSWORD USER WHEN USER FORGOT
+                        nuser.User.Mk_kh = hashPassword;
+                        await firebase.Child("User_WebShoes").Child(nuser.Key).PutAsync(nuser.User);
 
-                        ModelState.AddModelError("", "Email sent successfully. Please check your email !!!");
+                        try
+                        {
+                            MailMessage msg = new MailMessage();
+                            msg.From = new MailAddress(senderEmail);
+                            msg.To.Add(senderEmail);
+                            msg.Subject = "Recover your password";
+                            msg.Body = ("Your email is: " + senderEmail + "<br/><br/>"
+                                + "Your password is: " + senderPassword);
+                            msg.IsBodyHtml = true;
+
+                            SmtpClient smt = new SmtpClient();
+                            smt.Host = "smtp.gmail.com";
+                            System.Net.NetworkCredential ntwd = new System.Net.NetworkCredential("contact.shoestore@gmail.com", "shoestoremyadmin");
+                            smt.UseDefaultCredentials = false;
+                            smt.Credentials = ntwd;
+                            smt.Port = 587;
+                            smt.EnableSsl = true;
+                            smt.Send(msg);
+
+                            ModelState.AddModelError("", "Email sent successfully. Please check your email !!!");
+                        }
+                        catch (Exception ex)
+                        {
+                            ModelState.AddModelError("", "Error while sending mail " + ex.Message + " !!!");
+                        }
                     }
-                    catch (Exception ex)
-                    {
-                        ModelState.AddModelError("", "Error while sending mail " + ex.Message + " !!!");
-                    }
-
                 }
             }
             return View();
