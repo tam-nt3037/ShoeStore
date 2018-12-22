@@ -13,10 +13,10 @@ namespace Week02.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class ShoeStoreEntities : DbContext
+    public partial class ShoeStoreEntities1 : DbContext
     {
-        public ShoeStoreEntities()
-            : base("name=ShoeStoreEntities")
+        public ShoeStoreEntities1()
+            : base("name=ShoeStoreEntities1")
         {
         }
     
@@ -27,7 +27,6 @@ namespace Week02.Models
     
         public virtual DbSet<CT_HoaDon> CT_HoaDon { get; set; }
         public virtual DbSet<Hoa_don> Hoa_don { get; set; }
-        public virtual DbSet<Khach_hang> Khach_hang { get; set; }
         public virtual DbSet<Nhom_sp> Nhom_sp { get; set; }
         public virtual DbSet<San_pham> San_pham { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }

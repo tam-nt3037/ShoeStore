@@ -7,7 +7,7 @@ namespace Week02.Models
 {
     public class User 
     {
-        public int ID_kh { get; set; }
+        public string ID_kh { get; set; }
         public string Ten_kh { get; set; }
         public string Email_kh { get; set; }
         public string Sdt_kh { get; set; }

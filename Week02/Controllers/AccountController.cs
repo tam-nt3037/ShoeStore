@@ -17,7 +17,7 @@ namespace Week02.Controllers
         private FirebaseClient firebase;
 
         // GET: Account
-        ShoeStoreEntities db = new ShoeStoreEntities();
+        ShoeStoreEntities1 db = new ShoeStoreEntities1();
         User user;
 
         public AccountController()
@@ -155,14 +155,14 @@ namespace Week02.Controllers
             return false;
         }
         [HttpPost]
-        public async Task<ActionResult> Register(Khach_hang kh, RegisterViewModel model)
+        public async Task<ActionResult> Register(RegisterViewModel model)
         {
-            string email = Request["Email"];
-            string password = Encrypt.getHashSha256(Request["Password"]);
-            string name = Request["Name"];
-            string phone = Request["Phone"];
-            string address = Request["Address"];
-            //DateTime doB = DateTime.Parse(Request["doB"]);
+            string email = model.Email;
+            string password = Encrypt.getHashSha256(model.Password);
+            string name = model.NameCus;
+            string phone = model.PhoneNumberCus;
+            string address = model.AddressCus;
+            string doB = model.DateCus;
             if (ModelState.IsValid)
             {
                 if (await CheckEmail(email) == true)
@@ -171,15 +171,35 @@ namespace Week02.Controllers
                 }
                 else
                 {
-                    kh.Email_kh = email;
-                    kh.Mk_kh = password;
-                    kh.Ten_kh = model.NameCus;
-                    kh.Sdt_kh = model.PhoneNumberCus;
-                    kh.Diachi_kh = model.AddressCus;
-                    kh.Ngaysinh_kh = DateTime.ParseExact(model.DateCus, "dd/MM/yyyy", null);
-                    kh.PQuyen_kh = "kh";
-                    db.Khach_hang.Add(kh);
-                    db.SaveChanges();
+                    //kh.Email_kh = email;
+                    //kh.Mk_kh = password;
+                    //kh.Ten_kh = model.NameCus;
+                    //kh.Sdt_kh = model.PhoneNumberCus;
+                    //kh.Diachi_kh = model.AddressCus;
+                    //kh.Ngaysinh_kh = DateTime.ParseExact(model.DateCus, "dd/MM/yyyy", null);
+                    //kh.PQuyen_kh = "kh";
+
+                    user = new User
+                    {
+                        Diachi_kh = address,
+                        Email_kh = email,
+                        ID_kh = "",
+                        Mk_kh = Encrypt.getHashSha256(password),
+                        Ngaysinh_kh = doB,
+                        PQuyen_kh = "kh",
+                        Sdt_kh = phone,
+                        Ten_kh = name
+                    };
+                    var nodeuser = await firebase.Child("User_WebShoes").PostAsync(user);
+                    
+                    //UPDATE ID_KH
+                    UserNode nuser = await GetUserByEmail(email);
+                    if (nuser != null)
+                    {
+                        nuser.User.ID_kh = nuser.Key;
+                        await firebase.Child("User_WebShoes").Child(nuser.Key).PutAsync(nuser.User);
+                    }
+
                     ModelState.AddModelError("", "Register Success !!!");
                     return View("Login");
                 }
@@ -219,7 +239,7 @@ namespace Week02.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<ActionResult> AccountDetail(Khach_hang kh, DetailAccountViewModel model)
+        public async Task<ActionResult> AccountDetail(DetailAccountViewModel model)
         {
             string name = model.NameCus;
             string email = model.Email;
@@ -272,7 +292,7 @@ namespace Week02.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ChangePassword(Khach_hang kh, ChangePasswordViewModel model)
+        public async Task<ActionResult> ChangePassword(ChangePasswordViewModel model)
         {
             string email = Session["Email"].ToString();
             string opassword = Encrypt.getHashSha256(model.OPassword);
@@ -335,8 +355,8 @@ namespace Week02.Controllers
                 {
                     // Get Password for email
                     UserNode nuser = await GetUserByEmail(senderEmail);
-                    
-                    if(nuser != null)
+
+                    if (nuser != null)
                     {
                         //RESET PASSWORD
                         senderPassword = GenerateString.GetRandomString(6);

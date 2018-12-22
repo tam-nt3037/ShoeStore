@@ -10,7 +10,7 @@ namespace Week02.Controllers
     public class AdminController : Controller
     {
         // GET: Admin
-        ShoeStoreEntities db = new ShoeStoreEntities();
+        ShoeStoreEntities1 db = new ShoeStoreEntities1();
         public ActionResult Index()
         {
             List<San_pham> queryProductsAdmin = db.San_pham.Select(m => m).ToList();

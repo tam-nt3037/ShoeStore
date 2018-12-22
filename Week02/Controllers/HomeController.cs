@@ -6,11 +6,27 @@ using System.Web.Mvc;
 // Khai báo thư viện Models
 using Week02.Models;
 using Week02.common;
+using Firebase.Database;
+using System.Threading.Tasks;
+
 namespace Week02.Controllers
 {
     public class HomeController : Controller
     {
-        ShoeStoreEntities db = new ShoeStoreEntities();
+        private const string FIREBASE_APP = "https://carfirebase-1001.firebaseio.com/";
+        private FirebaseClient firebase;
+
+        ShoeStoreEntities1 db = new ShoeStoreEntities1();
+
+        public HomeController()
+        {
+            InitFirebase();
+        }
+        private void InitFirebase()
+        {
+            firebase = new FirebaseClient(FIREBASE_APP);
+        }
+
         public ActionResult Index()
         {
 
@@ -67,7 +83,19 @@ namespace Week02.Controllers
             }
 
         }
-        public ActionResult Checkout(CheckoutViewModel model)
+        public ActionResult Success()
+        {
+            return View();
+        }
+        private async Task<UserNode> GetUserByEmail(string email)
+        {
+            var fbUsers = await firebase.Child("User_WebShoes").OnceAsync<User>();
+            foreach (var item in fbUsers)
+                if (item.Object.Email_kh == email)
+                    return new UserNode(item.Key, item.Object);
+            return null;
+        }
+        public async Task<ActionResult> Checkout(CheckoutViewModel model)
         {
             List<Item> cart = (List<Item>)(Session["cart"]);
             Session["cart"] = cart;
@@ -76,13 +104,14 @@ namespace Week02.Controllers
                 ViewBag.ErrorNotAddToCart = "Vui lòng chọn sản phẩm mà bạn thích vào trong giỏ hàng !!!";
             else if (cart != null && email != null)
             {
-                List<Khach_hang> details_cus = (List<Khach_hang>)db.Khach_hang.Where(n => n.Email_kh == email).Select(n => n).ToList();
-                ViewData["CustomerInfor"] = details_cus;
+                //List<Khach_hang> details_cus = (List<Khach_hang>)db.Khach_hang.Where(n => n.Email_kh == email).Select(n => n).ToList();
+                UserNode nuser = await GetUserByEmail(email);
+                ViewData["CustomerInfor"] = nuser.User;
             }
             return View();
         }
         [HttpPost]
-        public ActionResult Checkout(Khach_hang kh,Hoa_don hd,CT_HoaDon ctHD, CheckoutViewModel model)
+        public async Task<ActionResult> Checkout(Hoa_don hd,CT_HoaDon ctHD, CheckoutViewModel model)
         {
             List<Item> cart = (List<Item>)(Session["cart"]);
             Session["cart"] = cart;
@@ -93,7 +122,7 @@ namespace Week02.Controllers
                     ViewBag.ErrorNotAddToCart = "Vui lòng chọn sản phẩm mà bạn thích vào trong giỏ hàng !!!";
                 else if (cart != null && email != null )
                 {
-                    findIdByEmail(email);
+                    Session["idCus"] =  await GetIDUserByEmail(email);
 
                     // Compute sum of cart
                     Session["sumMoney"] = 0;
@@ -105,10 +134,24 @@ namespace Week02.Controllers
                     // End Compute sum of cart
                     
                     placeOrder(cart);
-
+                  
                     Session["cart"] = null;
-                    ViewBag.SuccessCheckout = "Đơn hàng đã đặt thành công !!!";
 
+                    if(ViewBag.checkQuantityProduct == "false")
+                    {
+                        ViewBag.statusMessage = "Sản phẩm trong kho không đủ với với số lượng bạn cần";
+                        return View("Error");
+                    }
+                    else if (ViewBag.statusMessage == "error")
+                    {
+                        ViewBag.statusMessage = "Đã xảy ra lỗi trong lúc đặt hàng. Vui lòng đặt hàng lại";
+                        return View("Error");
+                    } else
+                    {
+                        ViewBag.statusMessage = "Bạn đã đặt hàng thành công";
+
+                        return View("Success");
+                    }
                 }
                 else
                 {
@@ -126,17 +169,17 @@ namespace Week02.Controllers
                 {
                     // Create CT Hoa don
                     CREATE_ORDERS_DETAILS(cart);
+                    
+                    ViewBag.statusMessage = "Đơn hàng đã đặt thành công !!!";
 
-                    ViewBag.stateCheckout = "success";
-
+                } else
+                {
+                    ViewBag.statusMessage = "error";
                 }
-
-
             }
             else
             {
                 ViewBag.checkQuantityProduct = "false";
-                ViewBag.messageCheckQuantityProduct = "Sản phẩm trong kho không đủ với với số lượng bạn cần";
             }
 
            
@@ -163,7 +206,7 @@ namespace Week02.Controllers
             try
             {
                 Hoa_don hd = new Hoa_don();
-                hd.ID_kh = Convert.ToInt32(Session["idCus"]);
+                hd.ID_kh = Session["idCus"].ToString();
                 hd.Ngay_lap = DateTime.Now;
                 hd.Tong_tien = Convert.ToInt32(Session["sumMoney"]);
                 hd.Trang_thai = "CTT";
@@ -204,12 +247,14 @@ namespace Week02.Controllers
                 db.SaveChanges();
             }
         }
-
-        public int findIdByEmail(string email)
+        
+        private async Task<string> GetIDUserByEmail(string email)
         {
-            List<Khach_hang> id = db.Khach_hang.Where(m => m.Email_kh.Equals(email)).Select(n => n).ToList();
-            Session["idCus"] = id[0].ID_kh;
-            return 0;
+            var fbUsers = await firebase.Child("User_WebShoes").OnceAsync<User>();
+            foreach (var item in fbUsers)
+                if (item.Object.Email_kh == email)
+                    return item.Key;
+            return null;
         }
         public ActionResult ProductDetail(int id, string Nsx_sp)
         {

@@ -3,7 +3,9 @@
     ViewBag.Title = "Checkout";
 }
 @using Week02.Controllers
-@{List<Week02.Models.Khach_hang> getCus = (List<Week02.Models.Khach_hang>)ViewData["CustomerInfor"];}
+@{
+    Week02.Models.User customer = (Week02.Models.User)ViewData["CustomerInfor"];
+}
 <asp:Content ID="Content2" ContentPlaceHolderID="Stylesheets" runat="server">
     <link href="~/css/myCustom.css" rel="stylesheet" type="text/css" media="screen" />
 
@@ -22,135 +24,132 @@
 </style>
 @using (Html.BeginForm("Checkout", "Home", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "", role = "form" }))
 {
-    if (getCus != null)
+    if (customer != null)
     {
-        foreach (var cus in getCus)
-        {
-            <div id="content" class="float_r">
-                <h2>Checkout</h2>
-                <h5><strong>BILLING INFORMATION</strong></h5>
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="content_half float_l checkout">
-                    Full Name:
-                    @Html.TextBoxFor(m => m.Full_Name, new { style = "width: 300px", placeholder = "Input your full name", @Value = cus.Ten_kh })
-                    @Html.ValidationMessageFor(m => m.Full_Name, "", new { @class = "text-danger" })
-                    <br />
-                    <br />
-                    Address:
-                    @Html.TextBoxFor(m => m.Address, new { style = "width: 300px", placeholder = "Input your address", @Value = cus.Diachi_kh })
-                    @Html.ValidationMessageFor(m => m.Address, "", new { @class = "text-danger" })
-                    <br />
-                    <br />
-                    Date of birth:
-                    @Html.TextBoxFor(m => m.DoB, new { style = "width: 300px", placeholder = "Input your date of birth", @Value = cus.Ngaysinh_kh })
-                    @Html.ValidationMessageFor(m => m.DoB, "", new { @class = "text-danger" })
-                    <br />
-                    @*<br />
-                        Country:
-                        <input type="text" style="width:300px;" />*@
-                </div>
+        <div id="content" class="float_r">
+            <h2>Checkout</h2>
+            <h5><strong>BILLING INFORMATION</strong></h5>
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="content_half float_l checkout">
+                Full Name:
+                @Html.TextBoxFor(m => m.Full_Name, new { style = "width: 300px", placeholder = "Input your full name", @Value = customer.Ten_kh })
+                @Html.ValidationMessageFor(m => m.Full_Name, "", new { @class = "text-danger" })
+                <br />
+                <br />
+                Address:
+                @Html.TextBoxFor(m => m.Address, new { style = "width: 300px", placeholder = "Input your address", @Value = customer.Diachi_kh })
+                @Html.ValidationMessageFor(m => m.Address, "", new { @class = "text-danger" })
+                <br />
+                <br />
+                Date of birth:
+                @Html.TextBoxFor(m => m.DoB, new { style = "width: 300px", placeholder = "Input your date of birth", @Value = customer.Ngaysinh_kh })
+                @Html.ValidationMessageFor(m => m.DoB, "", new { @class = "text-danger" })
+                <br />
+                @*<br />
+                    Country:
+                    <input type="text" style="width:300px;" />*@
+            </div>
 
-                <div class="content_half float_r checkout">
-                    E-MAIL
-                    @Html.TextBoxFor(m => m.Email, new { style = "width: 300px", placeholder = "Input your email", @Value = cus.Email_kh })
-                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
-                    <br />
-                    <br />
-                    PHONE<br />
-                    <span style="font-size:10px">Please, specify your reachable phone number. YOU MAY BE GIVEN A CALL TO VERIFY AND COMPLETE THE ORDER.</span>
-                    @Html.TextBoxFor(m => m.Phone, new { style = "width: 300px", placeholder = "Input your phone number", @Value = cus.Sdt_kh })
-                    @Html.ValidationMessageFor(m => m.Phone, "", new { @class = "text-danger" })
-                </div>
+            <div class="content_half float_r checkout">
+                E-MAIL
+                @Html.TextBoxFor(m => m.Email, new { style = "width: 300px", placeholder = "Input your email", @Value = customer.Email_kh })
+                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                <br />
+                <br />
+                PHONE<br />
+                <span style="font-size:10px">Please, specify your reachable phone number. YOU MAY BE GIVEN A CALL TO VERIFY AND COMPLETE THE ORDER.</span>
+                @Html.TextBoxFor(m => m.Phone, new { style = "width: 300px", placeholder = "Input your phone number", @Value = customer.Sdt_kh })
+                @Html.ValidationMessageFor(m => m.Phone, "", new { @class = "text-danger" })
+            </div>
 
 
 
-                <div class="cleaner h50"></div>
-                <h3>SHOPPING CART</h3>
-                <table width="680" cellspacing="0" cellpadding="5">
-                    <tr bgcolor="#ddd">
-                        <th width="220" align="left">Image </th>
-                        <th width="180" align="left">Description </th>
-                        <th width="100" align="center">Quantity </th>
-                        <th width="60" align="right">Price </th>
-                        <th width="60" align="right">Total </th>
-                        <th width="90"> </th>
+            <div class="cleaner h50"></div>
+            <h3>SHOPPING CART</h3>
+            <table width="680" cellspacing="0" cellpadding="5">
+                <tr bgcolor="#ddd">
+                    <th width="220" align="left">Image </th>
+                    <th width="180" align="left">Description </th>
+                    <th width="100" align="center">Quantity </th>
+                    <th width="60" align="right">Price </th>
+                    <th width="60" align="right">Total </th>
+                    <th width="90"> </th>
 
-                    </tr>
-                    @{decimal totalCart = 0;}
-                    @{ if (Session["cart"] != null)
+                </tr>
+                @{decimal totalCart = 0;}
+                @{ if (Session["cart"] != null)
+                    {
+                        foreach (Item item in (List<Item>)Session["cart"])
                         {
-                            foreach (Item item in (List<Item>)Session["cart"])
+                            if (item != null)
                             {
-                                if (item != null)
-                                {
-                                    decimal totalEachProduct = 0;
-                                    //int quantity;
-                                    //if (item.So_luong != 1)
-                                    //{
-                                    //    quantity = item.So_luong + ViewBag.quantityProducts;
-                                    //}
-                                    //else
-                                    //{
-                                    //    quantity = 1;
-                                    //}
-                                    <tr>
-                                        <td><img src="~/images/product/@item.San_pham.Hinh_sp" alt="image @item.San_pham.Hinh_sp" /></td>
-                                        <td>@item.San_pham.Mo_ta</td>
-                                        <td align="center"><input id="quantityP" name="quantityP" type="number" value="@item.So_luong" min="1" max="5" style="width: 40px; text-align: left;" runnat="server" /></td>
-                                        <td align="right">$@item.San_pham.Gia_sp </td>
-                                        <td align="right">$@(totalEachProduct = totalEachProduct + item.San_pham.Gia_sp.Value * @item.So_luong)</td>
-                                        <td align="center" onclick="myConfirm()">@Html.ActionLink("Remove", "Delete", "ShoppingCart", new { id = item.San_pham.ID_sp }, null) </td>
+                                decimal totalEachProduct = 0;
+                                //int quantity;
+                                //if (item.So_luong != 1)
+                                //{
+                                //    quantity = item.So_luong + ViewBag.quantityProducts;
+                                //}
+                                //else
+                                //{
+                                //    quantity = 1;
+                                //}
+                                <tr>
+                                    <td><img src="~/images/product/@item.San_pham.Hinh_sp" alt="image @item.San_pham.Hinh_sp" /></td>
+                                    <td>@item.San_pham.Mo_ta</td>
+                                    <td align="center"><input id="quantityP" name="quantityP" type="number" value="@item.So_luong" min="1" max="5" style="width: 40px; text-align: left;" runnat="server" /></td>
+                                    <td align="right">$@item.San_pham.Gia_sp </td>
+                                    <td align="right">$@(totalEachProduct = totalEachProduct + item.San_pham.Gia_sp.Value * @item.So_luong)</td>
+                                    <td align="center" onclick="myConfirm()">@Html.ActionLink("Remove", "Delete", "ShoppingCart", new { id = item.San_pham.ID_sp }, null) </td>
 
-                                    </tr>
-                                    totalCart += totalEachProduct;
-                                }
-                                else
-                                {
-                                    <tr>Nothing</tr>
-                                }
+                                </tr>
+                                totalCart += totalEachProduct;
+                            }
+                            else
+                            {
+                                <tr>Nothing</tr>
                             }
                         }
                     }
+                }
+                <tr>
+                    <td colspan="3" align="right" height="30px">Have you modified your basket? Please click here to <bold>@Html.ActionLink("Update", "Checkout", "ShoppingCart", null)</bold>&nbsp;&nbsp;</td>
+                    <td align="right" style="background:#ddd; font-weight:bold"> Total </td>
+                    <td align="right" style="background:#ddd; font-weight:bold">$@{@totalCart} </td>
+                    <td style="background:#ddd; font-weight:bold"> </td>
+                </tr>
+            </table>
+            <h4>TOTAL AMOUNT: <strong>$@{@totalCart}</strong></h4>
+            @Html.CheckBox("Check", true, new { @style = "display: none;" })
+            <p>
+                @Html.CheckBoxFor(m => m.isCheckTerm)
+                I accept the <a href="#">terms of use</a> of ShoeStore website.
+            </p>
+            @Html.ValidationMessageFor(m => m.isCheckTerm, "", new { @class = "text-danger" })
+            <p>
+                @Html.CheckBoxFor(m => m.isCheckInformation)
+                I am sure that the information provided is accurate !
+            </p>
+            @Html.ValidationMessageFor(m => m.isCheckInformation, "", new { @class = "text-danger" })
+            @*<table style="border:1px solid #CCCCCC;" width="100%">
                     <tr>
-                        <td colspan="3" align="right" height="30px">Have you modified your basket? Please click here to <bold>@Html.ActionLink("Update", "Checkout", "ShoppingCart", null)</bold>&nbsp;&nbsp;</td>
-                        <td align="right" style="background:#ddd; font-weight:bold"> Total </td>
-                        <td align="right" style="background:#ddd; font-weight:bold">$@{@totalCart} </td>
-                        <td style="background:#ddd; font-weight:bold"> </td>
+                        <td height="80px"> <img src="../images/paypal.gif" alt="paypal" /></td>
+                        <td width="400px;" style="padding: 0px 20px;">
+                            Recommended if you have a PayPal account. Fastest delivery time.
+                        </td>
+                        <td><a href="#" class="more">PAYPAL</a></td>
                     </tr>
-                </table>
-                <h4>TOTAL AMOUNT: <strong>$@{@totalCart}</strong></h4>
-                @Html.CheckBox("Check", true, new { @style = "display: none;" })
-                <p>
-                    @Html.CheckBoxFor(m => m.isCheckTerm)
-                    I accept the <a href="#">terms of use</a> of ShoeStore website.
-                </p>
-                @Html.ValidationMessageFor(m => m.isCheckTerm, "", new { @class = "text-danger" })
-                <p>
-                    @Html.CheckBoxFor(m => m.isCheckInformation)
-                    I am sure that the information provided is accurate !
-                </p>
-                @Html.ValidationMessageFor(m => m.isCheckInformation, "", new { @class = "text-danger" })
-                @*<table style="border:1px solid #CCCCCC;" width="100%">
-                        <tr>
-                            <td height="80px"> <img src="../images/paypal.gif" alt="paypal" /></td>
-                            <td width="400px;" style="padding: 0px 20px;">
-                                Recommended if you have a PayPal account. Fastest delivery time.
-                            </td>
-                            <td><a href="#" class="more">PAYPAL</a></td>
-                        </tr>
-                        <tr>
-                            <td height="80px">
-                                <img src="../images/2co.gif" alt="paypal" />
-                            </td>
-                            <td width="400px;" style="padding: 0px 20px;">2Checkout.com, Inc. is an authorized retailer of goods and services. 2CheckOut accepts customer orders via online checks, Visa, MasterCard, Discover, American Express, Diners, JCB and debit cards with the Visa, Mastercard logo. Validate <a href="http://validator.w3.org/check?uri=referer" rel="nofollow">XHTML</a> &amp; <a href="http://jigsaw.w3.org/css-validator/check/referer" rel="nofollow">CSS</a>.</td>
-                            <td><a href="#" class="more">2CHECKOUT</a></td>
-                        </tr>
-                    </table>*@
-                <p style="text-align: center">
-                    <button type="submit" class="mbutton mbutton2" ng-click="alertDialog.show()" runnat="server">Continue to checkout</button>
-                </p>
-            </div>
-        }@*=========== End foreach  ===========*@
+                    <tr>
+                        <td height="80px">
+                            <img src="../images/2co.gif" alt="paypal" />
+                        </td>
+                        <td width="400px;" style="padding: 0px 20px;">2Checkout.com, Inc. is an authorized retailer of goods and services. 2CheckOut accepts customer orders via online checks, Visa, MasterCard, Discover, American Express, Diners, JCB and debit cards with the Visa, Mastercard logo. Validate <a href="http://validator.w3.org/check?uri=referer" rel="nofollow">XHTML</a> &amp; <a href="http://jigsaw.w3.org/css-validator/check/referer" rel="nofollow">CSS</a>.</td>
+                        <td><a href="#" class="more">2CHECKOUT</a></td>
+                    </tr>
+                </table>*@
+            <p style="text-align: center">
+                <button type="submit" class="mbutton mbutton2" ng-click="alertDialog.show()" runnat="server">Continue to checkout</button>
+            </p>
+        </div>
     }@*=========== If Check Data != Null  ===========*@
     @*=========== If Check Data == Null  ===========*@
     else
@@ -175,8 +174,8 @@
                 @Html.ValidationMessageFor(m => m.DoB, "", new { @class = "text-danger" })
                 <br />
                 @*<br />
-                    Country:
-                    <input type="text" style="width:300px;" />*@
+            Country:
+            <input type="text" style="width:300px;" />*@
             </div>
 
             <div class="content_half float_r checkout">
@@ -248,15 +247,15 @@
                 </tr>
             </table>
             @*@{ if (Session["cart"] != null)
-                   {
-                       foreach (Item item in (List<Item>)Session["cart"])
-                       {
-                               @item.San_pham.ID_sp
-                               @item.San_pham.Ten_sp
-                               @item.So_luong
-                       }
-                   }
-                }*@
+           {
+               foreach (Item item in (List<Item>)Session["cart"])
+               {
+                       @item.San_pham.ID_sp
+                       @item.San_pham.Ten_sp
+                       @item.So_luong
+               }
+           }
+        }*@
 
             <h4>TOTAL AMOUNT: <strong>$@{@totalCart}</strong></h4>
             @Html.CheckBox("Check", true, new { @style = "display: none;" })
@@ -269,26 +268,37 @@
                 @Html.CheckBoxFor(m => m.isCheckInformation)
                 I am sure that the information provided is accurate !
             </p>
+            <p>
+                <h4>Note:<span style="color:goldenrod"> PAYMENT ON DELIVERY</span></h4>
+            </p>
             @Html.ValidationMessageFor(m => m.isCheckInformation, "", new { @class = "text-danger" })
             @*<table style="border:1px solid #CCCCCC;" width="100%">
-                    <tr>
-                        <td height="80px"> <img src="../images/paypal.gif" alt="paypal" /></td>
-                        <td width="400px;" style="padding: 0px 20px;">
-                            Recommended if you have a PayPal account. Fastest delivery time.
-                        </td>
-                        <td><a href="#" class="more">PAYPAL</a></td>
-                    </tr>
-                    <tr>
-                        <td height="80px">
-                            <img src="../images/2co.gif" alt="paypal" />
-                        </td>
-                        <td width="400px;" style="padding: 0px 20px;">2Checkout.com, Inc. is an authorized retailer of goods and services. 2CheckOut accepts customer orders via online checks, Visa, MasterCard, Discover, American Express, Diners, JCB and debit cards with the Visa, Mastercard logo. Validate <a href="http://validator.w3.org/check?uri=referer" rel="nofollow">XHTML</a> &amp; <a href="http://jigsaw.w3.org/css-validator/check/referer" rel="nofollow">CSS</a>.</td>
-                        <td><a href="#" class="more">2CHECKOUT</a></td>
-                    </tr>
-                </table>*@
+            <tr>
+                <td height="80px"> <img src="../images/paypal.gif" alt="paypal" /></td>
+                <td width="400px;" style="padding: 0px 20px;">
+                    Recommended if you have a PayPal account. Fastest delivery time.
+                </td>
+                <td><a href="#" class="more">PAYPAL</a></td>
+            </tr>
+            <tr>
+                <td height="80px">
+                    <img src="../images/2co.gif" alt="paypal" />
+                </td>
+                <td width="400px;" style="padding: 0px 20px;">2Checkout.com, Inc. is an authorized retailer of goods and services. 2CheckOut accepts customer orders via online checks, Visa, MasterCard, Discover, American Express, Diners, JCB and debit cards with the Visa, Mastercard logo. Validate <a href="http://validator.w3.org/check?uri=referer" rel="nofollow">XHTML</a> &amp; <a href="http://jigsaw.w3.org/css-validator/check/referer" rel="nofollow">CSS</a>.</td>
+                <td><a href="#" class="more">2CHECKOUT</a></td>
+            </tr>
+        </table>*@
             <p style="text-align: center">
                 <button type="submit" class="mbutton mbutton2" ng-click="alertDialog.show()" runnat="server">Continue to checkout</button>
             </p>
+            <hr style="outline-style:dotted" />
+            <p></p>
+            <p style="text-align: center; color: orangered; font-size:24px">OR</p>
+            <p style="text-align: center; color: orangered; font-size:24px">
+
+
+            </p>
+
         </div>
     }
 }

@@ -21,7 +21,7 @@ namespace Week02.Models
         }
     
         public int Ma_hd { get; set; }
-        public int ID_kh { get; set; }
+        public string ID_kh { get; set; }
         public Nullable<System.DateTime> Ngay_lap { get; set; }
         public Nullable<int> Tong_tien { get; set; }
         public string Trang_thai { get; set; }
@@ -30,6 +30,5 @@ namespace Week02.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CT_HoaDon> CT_HoaDon { get; set; }
-        public virtual Khach_hang Khach_hang { get; set; }
     }
 }

@@ -52,7 +52,7 @@
     @Html.ValidationMessageFor(m => m.AddressCus, "", new { @class = "text-danger" })
 
     <div class="wrap-input100 validate-input" data-validate="Your date of birth is required">
-        @Html.TextBoxFor(m => m.DateCus, new { @class = "input100", placeholder = "Your birthday" })
+        @Html.TextBoxFor(m => m.DateCus, new { @class = "input100", placeholder = "dd/MM/yyyy" })
         <span class="focus-input100"></span>
         <span class="symbol-input100">
             <i class="fa fa-birthday-cake" aria-hidden="true"></i>

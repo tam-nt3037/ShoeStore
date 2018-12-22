@@ -8,7 +8,7 @@ namespace Week02.Controllers
 {
     public class ShoppingCartController : Controller
     {
-        ShoeStoreEntities db = new ShoeStoreEntities();
+        ShoeStoreEntities1 db = new ShoeStoreEntities1();
 
         public ActionResult Index()
         {

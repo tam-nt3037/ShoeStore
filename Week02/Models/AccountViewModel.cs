@@ -43,7 +43,7 @@ namespace Week02.Models
         public string AddressCus { get; set; }
 
         [Required]
-        [DataType(DataType.Date, ErrorMessage = "Format date is wrong !")]
+        [DataType(DataType.Date, ErrorMessage = "Format date is wrong !"), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         [Display(Name = "doB")]
         public string DateCus { get; set; }
 

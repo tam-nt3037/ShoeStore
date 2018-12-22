@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="ShoeStoreModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="ShoeStoreModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="CT_HoaDon">
           <Key>
             <PropertyRef Name="ID_CTHD" />
@@ -20,25 +20,12 @@
             <PropertyRef Name="Ma_hd" />
           </Key>
           <Property Name="Ma_hd" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ID_kh" Type="int" Nullable="false" />
+          <Property Name="ID_kh" Type="nvarchar" MaxLength="250" Nullable="false" />
           <Property Name="Ngay_lap" Type="date" />
           <Property Name="Tong_tien" Type="int" />
           <Property Name="Trang_thai" Type="nvarchar" MaxLength="10" />
           <Property Name="Tien_ship" Type="int" />
           <Property Name="Trangthai_xulyhd" Type="nvarchar" MaxLength="50" />
-        </EntityType>
-        <EntityType Name="Khach_hang">
-          <Key>
-            <PropertyRef Name="ID_kh" />
-          </Key>
-          <Property Name="ID_kh" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Ten_kh" Type="nvarchar" MaxLength="50" />
-          <Property Name="Email_kh" Type="nvarchar" MaxLength="50" />
-          <Property Name="Sdt_kh" Type="nvarchar" MaxLength="20" />
-          <Property Name="Diachi_kh" Type="nvarchar" MaxLength="50" />
-          <Property Name="Ngaysinh_kh" Type="date" />
-          <Property Name="Mk_kh" Type="nvarchar" MaxLength="30" />
-          <Property Name="PQuyen_kh" Type="nvarchar" MaxLength="20" />
         </EntityType>
         <EntityType Name="Nhom_sp">
           <Key>
@@ -96,18 +83,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Hoa_don_Khach_hang">
-          <End Role="Khach_hang" Type="Self.Khach_hang" Multiplicity="1" />
-          <End Role="Hoa_don" Type="Self.Hoa_don" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Khach_hang">
-              <PropertyRef Name="ID_kh" />
-            </Principal>
-            <Dependent Role="Hoa_don">
-              <PropertyRef Name="ID_kh" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_San_pham_Nhom_SP">
           <End Role="Nhom_sp" Type="Self.Nhom_sp" Multiplicity="1" />
           <End Role="San_pham" Type="Self.San_pham" Multiplicity="*" />
@@ -123,7 +98,6 @@
         <EntityContainer Name="ShoeStoreModelStoreContainer">
           <EntitySet Name="CT_HoaDon" EntityType="Self.CT_HoaDon" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Hoa_don" EntityType="Self.Hoa_don" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Khach_hang" EntityType="Self.Khach_hang" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Nhom_sp" EntityType="Self.Nhom_sp" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="San_pham" EntityType="Self.San_pham" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
@@ -135,16 +109,13 @@
             <End Role="San_pham" EntitySet="San_pham" />
             <End Role="CT_HoaDon" EntitySet="CT_HoaDon" />
           </AssociationSet>
-          <AssociationSet Name="FK_Hoa_don_Khach_hang" Association="Self.FK_Hoa_don_Khach_hang">
-            <End Role="Khach_hang" EntitySet="Khach_hang" />
-            <End Role="Hoa_don" EntitySet="Hoa_don" />
-          </AssociationSet>
           <AssociationSet Name="FK_San_pham_Nhom_SP" Association="Self.FK_San_pham_Nhom_SP">
             <End Role="Nhom_sp" EntitySet="Nhom_sp" />
             <End Role="San_pham" EntitySet="San_pham" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ShoeStoreModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -165,28 +136,13 @@
             <PropertyRef Name="Ma_hd" />
           </Key>
           <Property Name="Ma_hd" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ID_kh" Type="Int32" Nullable="false" />
+          <Property Name="ID_kh" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Ngay_lap" Type="DateTime" Precision="0" />
           <Property Name="Tong_tien" Type="Int32" />
           <Property Name="Trang_thai" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="Tien_ship" Type="Int32" />
           <Property Name="Trangthai_xulyhd" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="CT_HoaDon" Relationship="Self.FK_CT_HoaDon_Hoa_don" FromRole="Hoa_don" ToRole="CT_HoaDon" />
-          <NavigationProperty Name="Khach_hang" Relationship="Self.FK_Hoa_don_Khach_hang" FromRole="Hoa_don" ToRole="Khach_hang" />
-        </EntityType>
-        <EntityType Name="Khach_hang">
-          <Key>
-            <PropertyRef Name="ID_kh" />
-          </Key>
-          <Property Name="ID_kh" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Ten_kh" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Email_kh" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Sdt_kh" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="Diachi_kh" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Ngaysinh_kh" Type="DateTime" />
-          <Property Name="Mk_kh" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PQuyen_kh" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Hoa_don" Relationship="Self.FK_Hoa_don_Khach_hang" FromRole="Khach_hang" ToRole="Hoa_don" />
         </EntityType>
         <EntityType Name="Nhom_sp">
           <Key>
@@ -204,6 +160,7 @@
           </Key>
           <Property Name="ID_sp" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Ten_sp" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Nsx_sp" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Gia_sp" Type="Int32" />
           <Property Name="Hinh_sp" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Mo_ta" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
@@ -211,7 +168,6 @@
           <Property Name="So_luong" Type="Int32" />
           <NavigationProperty Name="CT_HoaDon" Relationship="Self.FK_CT_HoaDon_San_pham" FromRole="San_pham" ToRole="CT_HoaDon" />
           <NavigationProperty Name="Nhom_sp" Relationship="Self.FK_San_pham_Nhom_SP" FromRole="San_pham" ToRole="Nhom_sp" />
-          <Property Name="Nsx_sp" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
@@ -247,18 +203,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Hoa_don_Khach_hang">
-          <End Role="Khach_hang" Type="Self.Khach_hang" Multiplicity="1" />
-          <End Role="Hoa_don" Type="Self.Hoa_don" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Khach_hang">
-              <PropertyRef Name="ID_kh" />
-            </Principal>
-            <Dependent Role="Hoa_don">
-              <PropertyRef Name="ID_kh" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_San_pham_Nhom_SP">
           <End Role="Nhom_sp" Type="Self.Nhom_sp" Multiplicity="1" />
           <End Role="San_pham" Type="Self.San_pham" Multiplicity="*" />
@@ -271,10 +215,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="ShoeStoreEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="ShoeStoreEntities1" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="CT_HoaDon" EntityType="Self.CT_HoaDon" />
           <EntitySet Name="Hoa_don" EntityType="Self.Hoa_don" />
-          <EntitySet Name="Khach_hang" EntityType="Self.Khach_hang" />
           <EntitySet Name="Nhom_sp" EntityType="Self.Nhom_sp" />
           <EntitySet Name="San_pham" EntityType="Self.San_pham" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
@@ -286,10 +229,6 @@
             <End Role="San_pham" EntitySet="San_pham" />
             <End Role="CT_HoaDon" EntitySet="CT_HoaDon" />
           </AssociationSet>
-          <AssociationSet Name="FK_Hoa_don_Khach_hang" Association="Self.FK_Hoa_don_Khach_hang">
-            <End Role="Khach_hang" EntitySet="Khach_hang" />
-            <End Role="Hoa_don" EntitySet="Hoa_don" />
-          </AssociationSet>
           <AssociationSet Name="FK_San_pham_Nhom_SP" Association="Self.FK_San_pham_Nhom_SP">
             <End Role="Nhom_sp" EntitySet="Nhom_sp" />
             <End Role="San_pham" EntitySet="San_pham" />
@@ -300,7 +239,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="ShoeStoreModelStoreContainer" CdmEntityContainer="ShoeStoreEntities">
+        <EntityContainerMapping StorageEntityContainer="ShoeStoreModelStoreContainer" CdmEntityContainer="ShoeStoreEntities1">
           <EntitySetMapping Name="CT_HoaDon">
             <EntityTypeMapping TypeName="ShoeStoreModel.CT_HoaDon">
               <MappingFragment StoreEntitySet="CT_HoaDon">
@@ -325,20 +264,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Khach_hang">
-            <EntityTypeMapping TypeName="ShoeStoreModel.Khach_hang">
-              <MappingFragment StoreEntitySet="Khach_hang">
-                <ScalarProperty Name="ID_kh" ColumnName="ID_kh" />
-                <ScalarProperty Name="Ten_kh" ColumnName="Ten_kh" />
-                <ScalarProperty Name="Email_kh" ColumnName="Email_kh" />
-                <ScalarProperty Name="Sdt_kh" ColumnName="Sdt_kh" />
-                <ScalarProperty Name="Diachi_kh" ColumnName="Diachi_kh" />
-                <ScalarProperty Name="Ngaysinh_kh" ColumnName="Ngaysinh_kh" />
-                <ScalarProperty Name="Mk_kh" ColumnName="Mk_kh" />
-                <ScalarProperty Name="PQuyen_kh" ColumnName="PQuyen_kh" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Nhom_sp">
             <EntityTypeMapping TypeName="ShoeStoreModel.Nhom_sp">
               <MappingFragment StoreEntitySet="Nhom_sp">
@@ -352,9 +277,9 @@
           <EntitySetMapping Name="San_pham">
             <EntityTypeMapping TypeName="ShoeStoreModel.San_pham">
               <MappingFragment StoreEntitySet="San_pham">
-                <ScalarProperty Name="Nsx_sp" ColumnName="Nsx_sp" />
                 <ScalarProperty Name="ID_sp" ColumnName="ID_sp" />
                 <ScalarProperty Name="Ten_sp" ColumnName="Ten_sp" />
+                <ScalarProperty Name="Nsx_sp" ColumnName="Nsx_sp" />
                 <ScalarProperty Name="Gia_sp" ColumnName="Gia_sp" />
                 <ScalarProperty Name="Hinh_sp" ColumnName="Hinh_sp" />
                 <ScalarProperty Name="Mo_ta" ColumnName="Mo_ta" />

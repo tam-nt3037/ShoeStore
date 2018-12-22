@@ -222,6 +222,27 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
     <Compile Include="Models\CheckoutViewModel.cs" />
+    <Compile Include="Models\CT_HoaDon.cs">
+      <DependentUpon>DataEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DataEntity.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataEntity.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DataEntity.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DataEntity.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataEntity.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Hoa_don.cs">
+      <DependentUpon>DataEntity.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Item.cs" />
     <Compile Include="Controllers\ShoppingCartController.cs" />
     <Compile Include="Global.asax.cs">
@@ -229,30 +250,6 @@
     </Compile>
     <Compile Include="Models\AccountViewModel.cs" />
     <Compile Include="Models\BestSellersModel.cs" />
-    <Compile Include="Models\CT_HoaDon.cs">
-      <DependentUpon>DataEntity.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\DataEntity.Context.cs">
-      <DependentUpon>DataEntity.Context.tt</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Include="Models\DataEntity.cs">
-      <DependentUpon>DataEntity.tt</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Include="Models\DataEntity.Designer.cs">
-      <DependentUpon>DataEntity.edmx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Include="Models\Hoa_don.cs">
-      <DependentUpon>DataEntity.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Khach_hang.cs">
-      <DependentUpon>DataEntity.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Nhom_sp.cs">
       <DependentUpon>DataEntity.tt</DependentUpon>
     </Compile>
@@ -504,16 +501,13 @@
     <Content Include="js\jquery.nivo.slider.pack.js" />
     <Content Include="js\slimbox2.js" />
     <Content Include="Models\DataEntity.Context.tt">
-      <DependentUpon>DataEntity.edmx</DependentUpon>
       <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>DataEntity.edmx</DependentUpon>
       <LastGenOutput>DataEntity.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\DataEntity.edmx.diagram">
-      <DependentUpon>DataEntity.edmx</DependentUpon>
-    </Content>
     <Content Include="Models\DataEntity.tt">
-      <DependentUpon>DataEntity.edmx</DependentUpon>
       <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>DataEntity.edmx</DependentUpon>
       <LastGenOutput>DataEntity.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\bootstrap.js" />
@@ -649,6 +643,13 @@
     <Content Include="Front_Login\vendor\bootstrap\css\bootstrap-reboot.min.css.map" />
     <Content Include="Front_Login\vendor\bootstrap\css\bootstrap.css.map" />
     <Content Include="Front_Login\vendor\bootstrap\css\bootstrap.min.css.map" />
+    <EntityDeploy Include="Models\DataEntity.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>DataEntity.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\DataEntity.edmx.diagram">
+      <DependentUpon>DataEntity.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -699,6 +700,8 @@
     <Content Include="Views\Home\Search.cshtml" />
     <Content Include="Views\Admin\EditProducts.cshtml" />
     <Content Include="Views\Admin\View.cshtml" />
+    <Content Include="Views\Home\Success.cshtml" />
+    <Content Include="Views\Home\Error.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -718,12 +721,6 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup>
-    <EntityDeploy Include="Models\DataEntity.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>DataEntity.Designer.cs</LastGenOutput>
-    </EntityDeploy>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

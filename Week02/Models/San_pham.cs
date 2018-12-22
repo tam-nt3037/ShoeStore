@@ -22,12 +22,12 @@ namespace Week02.Models
     
         public int ID_sp { get; set; }
         public string Ten_sp { get; set; }
+        public string Nsx_sp { get; set; }
         public Nullable<int> Gia_sp { get; set; }
         public string Hinh_sp { get; set; }
         public string Mo_ta { get; set; }
         public int ID_nhom { get; set; }
         public Nullable<int> So_luong { get; set; }
-        public string Nsx_sp { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CT_HoaDon> CT_HoaDon { get; set; }
