@@ -6,7 +6,7 @@
     <link rel="apple-touch-icon" sizes="76x76" href="~/assets/img/apple-icon.png" />
     <link rel="icon" type="image/png" href="../../assets/img/favicon.png" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <title>Material Dashboard Pro by Creative Tim</title>
+    <title>Admin Dashboard for Shoes Shop</title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
     <!-- Bootstrap core CSS     -->
@@ -33,10 +33,10 @@
             -->
             <div class="logo">
                 <a href="http://www.creative-tim.com" class="simple-text logo-mini">
-                    CT
+                    SH
                 </a>
                 <a href="http://www.creative-tim.com" class="simple-text logo-normal">
-                    Creative Tim
+                    SHOES SHOP
                 </a>
             </div>
             <div class="sidebar-wrapper">
@@ -77,13 +77,13 @@
                     </div>
                 </div>
                 <ul class="nav">
-                    <li>
+                    @*<li>
                         <a href="../dashboard.html">
                             <i class="material-icons">dashboard</i>
                             <p> Dashboard </p>
                         </a>
-                    </li>
-                    <li>
+                    </li>*@
+                    @*<li>
                         <a data-toggle="collapse" href="#pagesExamples">
                             <i class="material-icons">image</i>
                             <p>
@@ -229,39 +229,33 @@
                                 </li>
                             </ul>
                         </div>
-                    </li>
+                    </li>*@
                     <li class="active">
                         <a data-toggle="collapse" href="#tablesExamples" aria-expanded="true">
                             <i class="material-icons">grid_on</i>
                             <p>
-                                Tables
+                                Products
                                 <b class="caret"></b>
                             </p>
                         </a>
                         <div class="collapse in" id="tablesExamples">
                             <ul class="nav">
-                                <li>
-                                    <a href="../tables/regular.html">
-                                        <span class="sidebar-mini"> RT </span>
-                                        <span class="sidebar-normal"> Regular Tables </span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="../tables/extended.html">
-                                        <span class="sidebar-mini"> ET </span>
-                                        <span class="sidebar-normal"> Extended Tables </span>
-                                    </a>
-                                </li>
                                 <li class="active">
-                                    <a href="../tables/datatables.net.html">
-                                        <span class="sidebar-mini"> DT </span>
-                                        <span class="sidebar-normal"> DataTables.net </span>
+                                    <a href="@Url.Action("Index","Admin")">
+                                        <span class="sidebar-mini"> PR </span>
+                                        <span class="sidebar-normal"> All Products </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("CreateProduct","Admin")">
+                                        <span class="sidebar-mini"> CR </span>
+                                        <span class="sidebar-normal"> Create new product </span>
                                     </a>
                                 </li>
                             </ul>
                         </div>
                     </li>
-                    <li>
+                    @*<li>
                         <a data-toggle="collapse" href="#mapsExamples">
                             <i class="material-icons">place</i>
                             <p>
@@ -309,7 +303,7 @@
                             <i class="material-icons">date_range</i>
                             <p> Calendar </p>
                         </a>
-                    </li>
+                    </li>*@
                 </ul>
             </div>
         </div>
@@ -329,7 +323,7 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="#"> DataTables.net </a>
+                        <a class="navbar-brand" href="#"> Products </a>
                     </div>
                     <div class="collapse navbar-collapse">
                         <ul class="nav navbar-nav navbar-right">

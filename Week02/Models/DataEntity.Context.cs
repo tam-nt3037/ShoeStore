@@ -30,5 +30,6 @@ namespace Week02.Models
         public virtual DbSet<Nhom_sp> Nhom_sp { get; set; }
         public virtual DbSet<San_pham> San_pham { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
+        public virtual DbSet<Nhan_hieu> Nhan_hieu { get; set; }
     }
 }

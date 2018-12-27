@@ -250,9 +250,16 @@
     </Compile>
     <Compile Include="Models\AccountViewModel.cs" />
     <Compile Include="Models\BestSellersModel.cs" />
+    <Compile Include="Models\Nhan_hieu.cs">
+      <DependentUpon>DataEntity.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Nhom_sp.cs">
       <DependentUpon>DataEntity.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ProductModel.cs" />
+    <Compile Include="Models\Repository\BrandRepository.cs" />
+    <Compile Include="Models\Repository\ProductRepository.cs" />
+    <Compile Include="Models\Repository\ProductGroupRepository.cs" />
     <Compile Include="Models\San_pham.cs">
       <DependentUpon>DataEntity.tt</DependentUpon>
     </Compile>
@@ -702,6 +709,7 @@
     <Content Include="Views\Admin\View.cshtml" />
     <Content Include="Views\Home\Success.cshtml" />
     <Content Include="Views\Home\Error.cshtml" />
+    <Content Include="Views\Admin\CreateProduct.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

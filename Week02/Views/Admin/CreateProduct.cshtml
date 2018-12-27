@@ -14,7 +14,7 @@
                     <div class="card-header card-header-icon" data-background-color="purple">
                         <i class="material-icons">assignment</i>
                     </div>
-                    @using (Html.BeginForm("EditProducts", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    @using (Html.BeginForm("CreateProduct", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
                     {
                         @Html.AntiForgeryToken()
 
@@ -35,11 +35,25 @@
                                 }
                                 else
                                 {
+                                    if (ViewBag.Message != null)
+                                    {
+                                        <div class="alert alert-rose alert-with-icon" data-notify="container">
+                                            <i class="material-icons" data-notify="icon">notifications</i>
+                                            <button type="button" aria-hidden="true" class="close">
+                                                <i class="material-icons">close</i>
+                                            </button>
+                                            <span data-notify="message">@ViewBag.Message</span>
+                                        </div>
+                                    } else
+                                    {
+
+                                    }
+
+
                                     <div class="form-group">
                                         @Html.LabelFor(m => m.Ten_sp, htmlAttributes: new { @class = "control-label col-md-2" })
                                         <div class="col-md-10">
-                                            @Html.HiddenFor(m => m.ID_sp, new { htmlAttributes = new { @class = "form-control", @Value = Model.ID_sp } })
-                                            @Html.EditorFor(m => m.Ten_sp, new { htmlAttributes = new { @class = "form-control", @Value = Model.Ten_sp } })
+                                            @Html.EditorFor(m => m.Ten_sp, new { htmlAttributes = new { @class = "form-control" } })
                                             @Html.ValidationMessageFor(m => m.Ten_sp, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -50,14 +64,14 @@
                                             @*@Html.EditorFor(m => m.Hinh_sp, new { htmlAttributes = new { @class = "form-control" } })*@
                                             <div class="fileinput fileinput-new text-center" data-provides="fileinput">
                                                 <div class="fileinput-new thumbnail">
-                                                    <img src="~/images/product/@Model.Hinh_sp" alt="...">
+                                                    <img src="../../assets/img/image_placeholder.jpg" alt="...">
                                                 </div>
                                                 <div class="fileinput-preview fileinput-exists thumbnail"></div>
                                                 <div>
                                                     <span class="btn btn-rose btn-round btn-file">
                                                         <span class="fileinput-new">Select image</span>
                                                         <span class="fileinput-exists">Change</span>
-                                                        <input type="file" name="uploadEdit" id="uploadEdit" />
+                                                        <input type="file" name="upload" id="upload" />
                                                     </span>
                                                     <a href="#pablo" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a>
                                                 </div>
@@ -87,7 +101,7 @@
                                     <div class="form-group">
                                         @Html.LabelFor(m => m.So_luong, htmlAttributes: new { @class = "control-label col-md-2" })
                                         <div class="col-md-10">
-                                            @Html.EditorFor(m => m.So_luong, new { htmlAttributes = new { @class = "form-control", @Value = Model.So_luong } })
+                                            @Html.EditorFor(m => m.So_luong, new { htmlAttributes = new { @class = "form-control" } })
                                             @Html.ValidationMessageFor(m => m.So_luong, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -96,7 +110,7 @@
                                     <div class="form-group">
                                         @Html.LabelFor(m => m.Gia_sp, htmlAttributes: new { @class = "control-label col-md-2" })
                                         <div class="col-md-10">
-                                            @Html.EditorFor(m => m.Gia_sp, new { htmlAttributes = new { @class = "form-control", Model.Gia_sp } })
+                                            @Html.EditorFor(m => m.Gia_sp, new { htmlAttributes = new { @class = "form-control" } })
                                             @Html.ValidationMessageFor(m => m.Gia_sp, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -106,7 +120,7 @@
                                     <div class="form-group">
                                         @Html.LabelFor(m => m.Mo_ta, htmlAttributes: new { @class = "control-label col-md-2" })
                                         <div class="col-md-10">
-                                            @Html.EditorFor(m => m.Mo_ta, new { htmlAttributes = new { @class = "form-control", Model.Mo_ta } })
+                                            @Html.EditorFor(m => m.Mo_ta, new { htmlAttributes = new { @class = "form-control" } })
                                             @Html.ValidationMessageFor(m => m.Mo_ta, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -116,7 +130,8 @@
 
                                 <div class="form-group">
                                     <div class="col-md-offset-2 col-md-10">
-                                        <input type="submit" value="Save" class="btn btn-default" runnat="server" />
+                                        <input type="submit" value="Create" class="btn btn-default" runnat="server" />
+                                        <input type="reset" value="Reset" class="btn btn-default" runnat="server" />
                                     </div>
                                 </div>
                             </div>

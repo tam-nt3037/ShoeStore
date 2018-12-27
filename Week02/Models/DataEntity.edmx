@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="ShoeStoreModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="ShoeStoreModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="CT_HoaDon">
           <Key>
             <PropertyRef Name="ID_CTHD" />
@@ -26,6 +26,14 @@
           <Property Name="Trang_thai" Type="nvarchar" MaxLength="10" />
           <Property Name="Tien_ship" Type="int" />
           <Property Name="Trangthai_xulyhd" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Nhan_hieu">
+          <Key>
+            <PropertyRef Name="ID_nhanhieu" />
+          </Key>
+          <Property Name="ID_nhanhieu" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Ten_nhanhieu" Type="nvarchar" MaxLength="250" />
+          <Property Name="Mo_ta" Type="nvarchar" MaxLength="250" />
         </EntityType>
         <EntityType Name="Nhom_sp">
           <Key>
@@ -98,6 +106,7 @@
         <EntityContainer Name="ShoeStoreModelStoreContainer">
           <EntitySet Name="CT_HoaDon" EntityType="Self.CT_HoaDon" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Hoa_don" EntityType="Self.Hoa_don" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Nhan_hieu" EntityType="Self.Nhan_hieu" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Nhom_sp" EntityType="Self.Nhom_sp" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="San_pham" EntityType="Self.San_pham" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
@@ -114,8 +123,7 @@
             <End Role="San_pham" EntitySet="San_pham" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ShoeStoreModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -233,7 +241,16 @@
             <End Role="Nhom_sp" EntitySet="Nhom_sp" />
             <End Role="San_pham" EntitySet="San_pham" />
           </AssociationSet>
+          <EntitySet Name="Nhan_hieu" EntityType="ShoeStoreModel.Nhan_hieu" />
         </EntityContainer>
+        <EntityType Name="Nhan_hieu">
+          <Key>
+            <PropertyRef Name="ID_nhanhieu" />
+          </Key>
+          <Property Name="ID_nhanhieu" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Ten_nhanhieu" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Mo_ta" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -296,6 +313,15 @@
                 <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
                 <ScalarProperty Name="version" ColumnName="version" />
                 <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Nhan_hieu">
+            <EntityTypeMapping TypeName="ShoeStoreModel.Nhan_hieu">
+              <MappingFragment StoreEntitySet="Nhan_hieu">
+                <ScalarProperty Name="Mo_ta" ColumnName="Mo_ta" />
+                <ScalarProperty Name="Ten_nhanhieu" ColumnName="Ten_nhanhieu" />
+                <ScalarProperty Name="ID_nhanhieu" ColumnName="ID_nhanhieu" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
