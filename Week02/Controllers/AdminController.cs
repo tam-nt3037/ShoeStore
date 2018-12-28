@@ -32,6 +32,13 @@ namespace Week02.Controllers
             return View();
         }
 
+        public ActionResult DeleteProduct(int id_sp)
+        {
+            _proRep.DeleteProduct(id_sp);
+
+            return RedirectToAction("index");
+        }
+
         public ActionResult CreateProduct()
         {
             List<Nhom_sp> product_group = _pRep.getAllProductGroup();

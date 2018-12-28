@@ -18,5 +18,14 @@ namespace Week02.Models.Repository
             ctx.San_pham.Add(sp);
             ctx.SaveChanges();
         }
+        public void DeleteProduct(int pid)
+        {
+            San_pham p_find = ctx.San_pham.Where(p => p.ID_sp.Equals(pid)).SingleOrDefault();
+            if (p_find != null)
+            {
+                ctx.San_pham.Remove(p_find);
+            }
+            ctx.SaveChanges();
+        }
     }
 }

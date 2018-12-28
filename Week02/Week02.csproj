@@ -420,6 +420,7 @@
     <Content Include="assets\js\material-dashboard.js" />
     <Content Include="assets\js\material.min.js" />
     <Content Include="assets\js\moment.min.js" />
+    <Content Include="assets\js\myjqueryconfirm.js" />
     <Content Include="assets\js\nouislider.min.js" />
     <Content Include="assets\js\perfect-scrollbar.jquery.min.js" />
     <Content Include="assets\js\sweetalert2.js" />
@@ -668,7 +669,9 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
